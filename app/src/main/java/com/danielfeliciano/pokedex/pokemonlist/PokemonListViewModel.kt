@@ -3,7 +3,6 @@ package com.danielfeliciano.pokedex.pokemonlist
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
@@ -40,13 +39,13 @@ class PokemonListViewModel @Inject constructor(
     }
 
     fun searchPokemonList(query: String) {
-        val listToSearch = if(isSearchStarting) {
+        val listToSearch = if (isSearchStarting) {
             pokemonList.value
         } else {
             cachedPokemonList
         }
         viewModelScope.launch(Dispatchers.Default) {
-            if(query.isEmpty()) {
+            if (query.isEmpty()) {
                 pokemonList.value = cachedPokemonList
                 isSearching.value = false
                 isSearchStarting = true
@@ -56,7 +55,7 @@ class PokemonListViewModel @Inject constructor(
                 it.pokemonName.contains(query.trim(), ignoreCase = true) ||
                         it.number.toString() == query.trim()
             }
-            if(isSearchStarting) {
+            if (isSearchStarting) {
                 cachedPokemonList = pokemonList.value
                 isSearchStarting = false
             }
@@ -69,16 +68,17 @@ class PokemonListViewModel @Inject constructor(
         viewModelScope.launch {
             isLoading.value = true
             val result = repository.getPokemonList(PAGE_SIZE, curPage * PAGE_SIZE)
-            when(result) {
+            when (result) {
                 is Resource.Success -> {
                     endReached.value = curPage * PAGE_SIZE >= result.data!!.count
                     val pokedexEntries = result.data.results.mapIndexed { index, entry ->
-                        val number = if(entry.url.endsWith("/")) {
+                        val number = if (entry.url.endsWith("/")) {
                             entry.url.dropLast(1).takeLastWhile { it.isDigit() }
                         } else {
                             entry.url.takeLastWhile { it.isDigit() }
                         }
-                        val url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${number}.png"
+                        val url =
+                            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${number}.png"
                         PokedexListEntry(entry.name.capitalize(Locale.ROOT), url, number.toInt())
                     }
                     curPage++
@@ -92,16 +92,18 @@ class PokemonListViewModel @Inject constructor(
                     isLoading.value = false
                 }
             }
+
         }
     }
 
-    fun calcDominantColor(drawable: Drawable, onFinish: (Color) -> Unit){
-        val bmp = (drawable as BitmapDrawable).bitmap.copy(Bitmap.Config.ARGB_8888, true)
 
-        Palette.from(bmp).generate{ palette ->
+    fun calcDominantColor(drawable: Drawable, onFinish: (Color) -> Unit) {
+        val bmp = (drawable as BitmapDrawable).bitmap.copy(Bitmap.Config.ARGB_8888, true)
+        Palette.from(bmp).generate { palette ->
             palette?.dominantSwatch?.rgb?.let { colorValue ->
                 onFinish(Color(colorValue))
             }
         }
     }
+
 }

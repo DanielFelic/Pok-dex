@@ -26,8 +26,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.SubcomposeAsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import coil.size.Size
 import com.danielfeliciano.pokedex.R
 import com.danielfeliciano.pokedex.data.models.PokedexListEntry
 import com.danielfeliciano.pokedex.ui.theme.RobotoCondensed
@@ -116,7 +118,7 @@ fun PokemonList(
     val endReached by remember { viewModel.endReached }
     val loadError by remember { viewModel.loadError }
     val isLoading by remember { viewModel.isLoading }
-    val isSearching by remember {viewModel.isSearching}
+    val isSearching by remember { viewModel.isSearching }
 
     LazyColumn(contentPadding = PaddingValues(16.dp)) {
         val itemCount = if (pokemonList.size % 2 == 0) {
@@ -135,10 +137,10 @@ fun PokemonList(
         contentAlignment = Center,
         modifier = Modifier.fillMaxSize()
     ) {
-        if(isLoading) {
+        if (isLoading) {
             CircularProgressIndicator(color = MaterialTheme.colors.primary)
         }
-        if(loadError.isNotEmpty()) {
+        if (loadError.isNotEmpty()) {
             RetrySection(error = loadError) {
                 viewModel.loadPokemonPaginated()
             }
@@ -181,26 +183,41 @@ fun PokedexEntry(
     ) {
         Column {
 
-           SubcomposeAsyncImage(
+            val painter = rememberAsyncImagePainter(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(entry.imageUrl)
+                    .size(Size.ORIGINAL)
                     .crossfade(true)
-                    //.target {
-                    //    viewModel.calcDominantColor(it){ color ->
-                    //        dominantColor = color
-                    //    }
-                    //}
-                    .build(),
-                loading = {
-                    CircularProgressIndicator()
-                },
-               contentDescription = entry.pokemonName,
-               modifier = Modifier
-                   .size(120.dp)
-                   .align(CenterHorizontally),
-
-
+                    .build()
             )
+            (painter.state as? AsyncImagePainter.State.Success)?.let { successState ->
+                LaunchedEffect(Unit){
+                    val drawable = successState.result.drawable
+                    viewModel.calcDominantColor(drawable) { color ->
+                        dominantColor = color
+                    }
+                }
+            }
+            val painterState = painter.state
+
+            Image(
+                painter = painter,
+                contentDescription = entry.pokemonName,
+                modifier = Modifier
+                    .size(120.dp)
+                    .align(CenterHorizontally)
+            )
+
+            if (painterState is AsyncImagePainter.State.Loading){
+                CircularProgressIndicator(
+                    color = MaterialTheme.colors.primary,
+                    modifier = Modifier
+                        .size(50.dp)
+                        .padding(3.dp)
+                        .align(CenterHorizontally)
+                )
+            }
+
 
             Text(
                 text = entry.pokemonName,
@@ -208,7 +225,7 @@ fun PokedexEntry(
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
-                )
+            )
 
         }
     }
