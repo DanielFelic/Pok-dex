@@ -58,12 +58,12 @@ O objetivo dessa aplicação é o aprendizado pessoal através da utilização d
 
 - [x] IDE: Android Studio 
 - [x] Linguagem de programação: Kotlin
+- [X] Arquitetura: MVVM
 - [x] Retrofit - Utilizado para consumo da API 
 - [x] Biblioteca Hilt - Injeção de Dependências
 - [x] Android Jetpack
-- [x] Jetpack Compose - UI
+- [x] Jetpack Compose - Construir UI
 - [x] Coil - Carregar imagens
-- [x] Pallete - Extrair cor dominante das imagens
 
 <a id="-layout"></a>
 
