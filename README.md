@@ -1,4 +1,4 @@
-<h1 align="center"> <a href="https://imgur.com/a7SYk1m"><img src="https://i.imgur.com/a7SYk1m.png?2" alt="Pokédex Logo" width="738" height="447"/></a> </h1>
+<h1 align="center"> <a href="https://imgur.com/a7SYk1m"><img src="https://i.imgur.com/a7SYk1m.png?2" alt="Pokédex Logo" width="369" height="223"/></a> </h1>
   
  </h1>
 	
@@ -39,10 +39,18 @@ O objetivo dessa aplicação é o aprendizado pessoal através da utilização d
 
 ## Funcionalidades
 
-- [x] Feed Pokémon;
-- [x] Pesquisa por nome do Pokémon;
-- [x] Informação do peso e altura;
-- [x] Estatísticas de combate.
+<h3>Feed:</h3>
+
+![Pokedex - Feed (3)](https://user-images.githubusercontent.com/98984085/173739295-786121ec-c1a6-4989-8860-a33566cf20dd.gif)
+
+<h3>Barra de Pesquisa:</h3>
+
+![Pokedex - Pesquisa](https://user-images.githubusercontent.com/98984085/173741945-bd7dd277-4171-4424-bf2d-0da6b263e6cd.gif)
+
+<h3>Tela de Detalhes:</h3>
+
+![Pokedex - Detalhes](https://user-images.githubusercontent.com/98984085/173741976-41210b93-a143-49aa-9ef2-5e0f156c3f39.gif)
+
 
 <a id="-tecnologias"></a>
 
