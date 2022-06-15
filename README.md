@@ -72,6 +72,10 @@ O objetivo dessa aplicação é o aprendizado pessoal através da utilização d
 O layout da aplicação foi desenvolvido utilizando o kit de ferramentas
 [Jetpack Compose](https://developer.android.com/jetpack/compose?hl=pt-br) do Android Studio.
 
+Trecho de código exemplificando o uso do Compose para construir a tela de feed:
+
+<h1 align="left"> <a href="https://imgur.com/BBav2LQ"><img src="https://i.imgur.com/BBav2LQ.png" alt="Composable" height="500"/></a> </h1>
+
 
 <a id="-como-executar-o-projeto"></a>
 
